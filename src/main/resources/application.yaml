@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: KuhltruhenApp
+  datasource:
+    url: jdbc:sqlite:./data/kuhlschrank.db
+    driverClassName: org.sqlite.JDBC
+
+  jpa:
+    database-platform: org.hibernate.dialect.SQLiteDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
