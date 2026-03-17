@@ -22,29 +22,17 @@ public class KuhlschrankService {
         return kuhlschrankRepository.existsById(id);
     }
 
-    public List<KuhlschrankArtikel> findAll() {
-        return kuhlschrankRepository.findAll();
-    }
-
     public void save(KuhlschrankArtikel artikel) {
         kuhlschrankRepository.save(artikel);
     }
 
     public KuhlschrankArtikel update(Long id, KuhlschrankArtikel updatedArtikel) {
-        if (!artikelExists(id)) {
-            throw new IllegalArgumentException("Artikel with ID " + id + " not found");
-        } else {
             updatedArtikel.setId(id);
             return kuhlschrankRepository.save(updatedArtikel);
-        }
     }
 
     public void deleteArtikel(Long id) {
-        if (!artikelExists(id)) {
-            throw new IllegalArgumentException("Artikel with ID " + id + " not found");
-        } else {
-            kuhlschrankRepository.deleteById(id);
-        }
+            kuhlschrankRepository.deleteById(id);  
     }
 
     public KuhlschrankArtikel addArtikel(KuhlschrankArtikel artikel) {

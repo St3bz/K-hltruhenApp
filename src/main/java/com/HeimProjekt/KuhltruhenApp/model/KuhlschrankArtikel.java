@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class KuhlschrankArtikel {
@@ -13,9 +15,14 @@ public class KuhlschrankArtikel {
     @GeneratedValue
 
     private Long id;
+    @NotBlank
     private String name;
+    @Min(0)
     private int menge;
-    private String kategorie;
+    public enum Kategorie{
+        Obst, Gemüse, Fleisch, Fertiggerichte, Beilagen, Sonstiges
+    }
+    private Kategorie kategorie;
     private LocalDate haltbarkeitsdatum;
 
     public Long getId() {
@@ -42,11 +49,11 @@ public class KuhlschrankArtikel {
         this.menge = menge;
     }
 
-    public String getKategorie() {
+    public Kategorie getKategorie() {
         return kategorie;
     }
 
-    public void setKategorie(String kategorie) {
+    public void setKategorie(Kategorie kategorie) {
         this.kategorie = kategorie;
     }
 
