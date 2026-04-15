@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.HeimProjekt.KuhltruhenApp.model.VorratsArtikel;
 import com.HeimProjekt.KuhltruhenApp.service.VorratsService;
 
 import jakarta.validation.Valid;
 
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:5173"})
 @RestController
 @RequestMapping("api/v1/vorrat")
 public class VorratsController {
@@ -54,14 +56,14 @@ public class VorratsController {
         return ResponseEntity.ok(vorratsService.getAllArtikel());
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> deleteArtikel(@PathVariable Long id) {
-        try {
-            vorratsService.deleteArtikel(id);
-            return ResponseEntity.ok().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteArtikel(@PathVariable Long id) {
+        if (!vorratsService.artikelExists(id)) {
+        return ResponseEntity.notFound().build();
+    } else {
+        vorratsService.deleteArtikel(id);
+        return ResponseEntity.noContent().build();
+    }
     }
 
 

@@ -13,9 +13,11 @@ import com.HeimProjekt.KuhltruhenApp.repository.KuhlschrankRepository;
 public class KuhlschrankService {
 
     private KuhlschrankRepository kuhlschrankRepository;
+    private VorratsService vorratsService;
 
-    public KuhlschrankService(KuhlschrankRepository kuhlschrankRepository) {
+    public KuhlschrankService(KuhlschrankRepository kuhlschrankRepository, VorratsService vorratsService) {
         this.kuhlschrankRepository = kuhlschrankRepository;
+        this.vorratsService = vorratsService;
     }
 
     public boolean artikelExists(Long id) {
@@ -32,6 +34,12 @@ public class KuhlschrankService {
     }
 
     public void deleteArtikel(Long id) {
+            KuhlschrankArtikel artikel = kuhlschrankRepository.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("Artikel mit ID " + id + " nicht gefunden"));
+
+            vorratsService.reduceVorrat(artikel.getVorratsArtikel(), artikel.getMenge());
+
+
             kuhlschrankRepository.deleteById(id);  
     }
 

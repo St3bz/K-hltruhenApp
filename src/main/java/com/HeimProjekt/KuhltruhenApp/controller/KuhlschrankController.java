@@ -9,6 +9,7 @@ import com.HeimProjekt.KuhltruhenApp.service.KuhlschrankService;
 
 import jakarta.validation.Valid;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:5173"})
 @RestController
 @RequestMapping("api/v1/kuhlschrank")
 public class KuhlschrankController {
@@ -65,13 +66,13 @@ public class KuhlschrankController {
         return ResponseEntity.ok(kuhlschrankService.getAllArtikels());
     }
 
-    @DeleteMapping
-    public ResponseEntity<String> delete(@RequestBody Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
         if (!kuhlschrankService.artikelExists(id)) {
             return ResponseEntity.notFound().build();
         } else {
             kuhlschrankService.deleteArtikel(id);
-            return ResponseEntity.ok("Artikel deleted successfully");
+            return ResponseEntity.noContent().build();
         }
     }
 

@@ -5,10 +5,15 @@ import java.time.LocalDate;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@Table(name = "kuhlschrank_artikel")
 public class KuhlschrankArtikel {
     
     @Id
@@ -24,6 +29,10 @@ public class KuhlschrankArtikel {
     }
     private Kategorie kategorie;
     private LocalDate haltbarkeitsdatum;
+
+    @ManyToOne
+    @JoinColumn(name = "vorrats_artikel_id")  // Adjust column name as needed
+    private VorratsArtikel vorratsArtikel;
 
     public Long getId() {
         return id;
@@ -65,4 +74,12 @@ public class KuhlschrankArtikel {
         this.haltbarkeitsdatum = haltbarkeitsdatum;
     }
 
+    @JsonIgnore
+    public VorratsArtikel getVorratsArtikel() {
+        return vorratsArtikel;
+    }
+
+    public void setVorratsArtikel(VorratsArtikel vorratsArtikel) {
+        this.vorratsArtikel = vorratsArtikel;
+    }
 }
